@@ -2,71 +2,362 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>DM Check | Wall Brokers</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
+  <title>DM Check</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#0a0a0a; font-family:'Courier New',monospace; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
-    .card { width:100%; max-width:400px; background:rgba(20,20,20,0.98); border:1px solid rgba(198,242,33,0.15); border-radius:16px; padding:32px 24px; text-align:center; position:relative; z-index:1; }
-    .title { font-size:0.95rem; font-weight:700; color:#C6F221; margin-bottom:6px; }
-    .subtitle { font-size:0.62rem; color:#aaa; margin-bottom:24px; }
-    .input { width:100%; padding:14px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(198,242,33,0.2); border-radius:10px; color:#fff; font-family:'Courier New',monospace; font-size:0.8rem; margin-bottom:10px; outline:none; text-align:center; }
-    .input:focus { border-color:#C6F221; }
-    .input::placeholder { color:#555; }
-    .btn { width:100%; padding:14px; background:#C6F221; color:#000; border:none; border-radius:10px; font-family:'Courier New',monospace; font-size:0.8rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
-    .btn:hover { background:#d4ff33; }
-    .btn:disabled { background:#333; color:#666; cursor:not-allowed; }
-    .error { font-size:0.62rem; color:#ef5350; text-align:center; min-height:16px; margin-top:8px; }
-    .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(0,0,0,0.2); border-top-color:#000; border-radius:50%; animation:spin 0.6s linear infinite; vertical-align:middle; margin-right:6px; }
+
+    body {
+      font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:#0f0f14;
+      background-image:
+        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(99,102,241,0.08), transparent),
+        radial-gradient(ellipse 500px 350px at 80% 70%, rgba(236,72,153,0.06), transparent);
+    }
+
+    .container {
+      width:100%;
+      max-width:440px;
+    }
+
+    .header {
+      text-align:center;
+      margin-bottom:32px;
+    }
+
+    .logo {
+      width:56px;
+      height:56px;
+      border-radius:16px;
+      background:linear-gradient(135deg, #6366f1, #ec4899);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      margin-bottom:16px;
+      box-shadow:0 8px 32px rgba(99,102,241,0.25);
+    }
+
+    .title {
+      font-size:28px;
+      font-weight:800;
+      color:#fff;
+      letter-spacing:-0.5px;
+      margin-bottom:8px;
+    }
+
+    .subtitle {
+      font-size:15px;
+      color:#6b7280;
+      line-height:1.5;
+    }
+
+    .search-box {
+      background:#1a1a24;
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:20px;
+      padding:24px;
+      box-shadow:0 4px 24px rgba(0,0,0,0.3);
+    }
+
+    .input-wrapper {
+      position:relative;
+      margin-bottom:16px;
+    }
+
+    .input-wrapper svg {
+      position:absolute;
+      left:18px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#4b5563;
+      pointer-events:none;
+    }
+
+    input {
+      width:100%;
+      padding:18px 20px 18px 50px;
+      background:#12121a;
+      border:2px solid rgba(255,255,255,0.06);
+      border-radius:14px;
+      color:#fff;
+      font-family:'Inter', sans-serif;
+      font-size:17px;
+      font-weight:500;
+      outline:none;
+      transition:border-color 0.2s;
+    }
+
+    input:focus {
+      border-color:rgba(99,102,241,0.5);
+    }
+
+    input::placeholder {
+      color:#3f3f4e;
+      font-weight:400;
+    }
+
+    .btn {
+      width:100%;
+      padding:18px;
+      border:none;
+      border-radius:14px;
+      font-family:'Inter', sans-serif;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      transition:all 0.2s;
+      background:linear-gradient(135deg, #6366f1, #8b5cf6);
+      color:#fff;
+      box-shadow:0 4px 16px rgba(99,102,241,0.3);
+      letter-spacing:0.3px;
+    }
+
+    .btn:hover {
+      transform:translateY(-1px);
+      box-shadow:0 6px 24px rgba(99,102,241,0.4);
+    }
+
+    .btn:active {
+      transform:translateY(0);
+    }
+
+    .btn:disabled {
+      background:#2a2a3a;
+      color:#555;
+      cursor:not-allowed;
+      box-shadow:none;
+      transform:none;
+    }
+
+    .spinner {
+      display:inline-block;
+      width:18px;
+      height:18px;
+      border:2.5px solid rgba(255,255,255,0.15);
+      border-top-color:#fff;
+      border-radius:50%;
+      animation:spin 0.7s linear infinite;
+      vertical-align:middle;
+      margin-right:8px;
+    }
+
     @keyframes spin { to { transform:rotate(360deg); } }
 
-    .result { display:none; margin-top:20px; padding:20px; border-radius:12px; text-align:center; }
-    .result-new { background:rgba(198,242,33,0.08); border:1px solid rgba(198,242,33,0.3); }
-    .result-used { background:rgba(239,83,80,0.08); border:1px solid rgba(239,83,80,0.3); }
-    .result-icon { font-size:2.5rem; margin-bottom:8px; }
-    .result-title { font-size:0.85rem; font-weight:700; margin-bottom:4px; }
-    .result-new .result-title { color:#C6F221; }
-    .result-used .result-title { color:#ef5350; }
-    .result-desc { font-size:0.6rem; color:#888; margin-bottom:12px; }
-    .profile-link { display:inline-block; padding:10px 20px; background:#1DA1F2; color:#fff; border-radius:8px; text-decoration:none; font-family:'Courier New',monospace; font-size:0.7rem; font-weight:700; transition:all 0.2s; }
-    .profile-link:hover { background:#1a8cd8; }
+    .error {
+      font-size:14px;
+      color:#f87171;
+      text-align:center;
+      min-height:20px;
+      margin-top:-8px;
+      margin-bottom:8px;
+    }
 
-    .history { margin-top:24px; text-align:left; }
-    .history-title { font-size:0.65rem; color:#666; margin-bottom:8px; text-align:center; }
-    .history-item { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.6rem; }
-    .history-user { color:#C6F221; font-weight:700; }
-    .history-status { font-weight:700; }
-    .history-new { color:#C6F221; }
-    .history-used { color:#ef5350; }
+    .result {
+      display:none;
+      margin-top:20px;
+      padding:28px 24px;
+      border-radius:16px;
+      text-align:center;
+      animation:fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(8px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    .result-safe {
+      background:rgba(34,197,94,0.08);
+      border:1px solid rgba(34,197,94,0.2);
+    }
+
+    .result-blocked {
+      background:rgba(239,68,68,0.08);
+      border:1px solid rgba(239,68,68,0.2);
+    }
+
+    .result-icon {
+      width:64px;
+      height:64px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:32px;
+      margin-bottom:16px;
+    }
+
+    .result-safe .result-icon {
+      background:rgba(34,197,94,0.12);
+    }
+
+    .result-blocked .result-icon {
+      background:rgba(239,68,68,0.12);
+    }
+
+    .result-title {
+      font-size:22px;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .result-safe .result-title { color:#4ade80; }
+    .result-blocked .result-title { color:#f87171; }
+
+    .result-desc {
+      font-size:15px;
+      color:#6b7280;
+      margin-bottom:18px;
+      line-height:1.5;
+    }
+
+    .profile-link {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:14px 28px;
+      background:linear-gradient(135deg, #1d9bf0, #1a8cd8);
+      color:#fff;
+      border-radius:12px;
+      text-decoration:none;
+      font-family:'Inter', sans-serif;
+      font-size:15px;
+      font-weight:600;
+      transition:all 0.2s;
+      box-shadow:0 4px 16px rgba(29,155,240,0.3);
+    }
+
+    .profile-link:hover {
+      transform:translateY(-1px);
+      box-shadow:0 6px 20px rgba(29,155,240,0.4);
+    }
+
+    .history {
+      margin-top:28px;
+    }
+
+    .history-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
+    }
+
+    .history-title {
+      font-size:13px;
+      font-weight:600;
+      color:#4b5563;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+
+    .history-clear {
+      font-size:13px;
+      color:#6b7280;
+      background:none;
+      border:none;
+      cursor:pointer;
+      font-family:'Inter', sans-serif;
+      padding:4px 8px;
+      border-radius:6px;
+      transition:all 0.2s;
+    }
+
+    .history-clear:hover {
+      background:rgba(255,255,255,0.05);
+      color:#9ca3af;
+    }
+
+    .history-list {
+      background:#1a1a24;
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    .history-item {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:14px 18px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+
+    .history-item:last-child {
+      border-bottom:none;
+    }
+
+    .history-user {
+      font-size:15px;
+      font-weight:600;
+      color:#e5e7eb;
+    }
+
+    .history-badge {
+      font-size:12px;
+      font-weight:700;
+      padding:4px 10px;
+      border-radius:20px;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+
+    .badge-safe {
+      background:rgba(34,197,94,0.12);
+      color:#4ade80;
+    }
+
+    .badge-used {
+      background:rgba(239,68,68,0.12);
+      color:#f87171;
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="title">Collab DM Check</div>
-    <div class="subtitle">Check if a user has already been DM'd by our team</div>
-
-    <input type="text" class="input" id="dm-username" placeholder="@username" autocomplete="off">
-    <div class="error" id="dm-error"></div>
-    <button class="btn" id="dm-btn" onclick="checkDm()">
-      Check Username
-    </button>
-
-    <div class="result" id="dm-result-new">
-      <div class="result-icon">✅</div>
-      <div class="result-title">Safe to DM</div>
-      <div class="result-desc">This user hasn't been contacted yet.</div>
-      <a class="profile-link" id="dm-profile-link" href="#" target="_blank" rel="noopener">View Profile →</a>
+  <div class="container">
+    <div class="header">
+      <div class="logo">✉️</div>
+      <div class="title">DM Check</div>
+      <div class="subtitle">Verify if a user has already been contacted</div>
     </div>
 
-    <div class="result" id="dm-result-used">
-      <div class="result-icon">⚠️</div>
-      <div class="result-title">Already DM'd</div>
-      <div class="result-desc">This user was already contacted by a team member.</div>
+    <div class="search-box">
+      <div class="input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="M21 21l-4.35-4.35"></path>
+        </svg>
+        <input type="text" id="dm-username" placeholder="Enter @username" autocomplete="off">
+      </div>
+      <div class="error" id="dm-error"></div>
+      <button class="btn" id="dm-btn" onclick="checkDm()">Check Username</button>
+
+      <div class="result" id="dm-result-safe">
+        <div class="result-icon">✅</div>
+        <div class="result-title">Safe to DM</div>
+        <div class="result-desc">This user hasn't been contacted yet. You're free to reach out!</div>
+        <a class="profile-link" id="dm-profile-link" href="#" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          View Profile
+        </a>
+      </div>
+
+      <div class="result" id="dm-result-blocked">
+        <div class="result-icon">⚠️</div>
+        <div class="result-title">Already Contacted</div>
+        <div class="result-desc">This user has already been DM'd by a team member.</div>
+      </div>
     </div>
 
     <div class="history" id="dm-history"></div>
@@ -96,21 +387,27 @@
       try { return JSON.parse(localStorage.getItem('dm_history') || '[]'); } catch(e) { return []; }
     }
 
-    function addHistory(username, isNew) {
+    function addHistory(username, safe) {
       var h = getHistory();
-      h.unshift({ user: username, isNew: isNew, time: new Date().toLocaleString('en-BD', { timeZone: 'Asia/Dhaka' }) });
-      if (h.length > 20) h = h.slice(0, 20);
+      h.unshift({ user: username, safe: safe });
+      if (h.length > 30) h = h.slice(0, 30);
       localStorage.setItem('dm_history', JSON.stringify(h));
+    }
+
+    function clearHistory() {
+      localStorage.removeItem('dm_history');
+      renderHistory();
     }
 
     function renderHistory() {
       var h = getHistory();
       var el = document.getElementById('dm-history');
       if (h.length === 0) { el.innerHTML = ''; return; }
-      var html = '<div class="history-title">Recent Checks</div>';
+      var html = '<div class="history-header"><span class="history-title">Recent Checks</span><button class="history-clear" onclick="clearHistory()">Clear</button></div><div class="history-list">';
       for (var i = 0; i < h.length; i++) {
-        html += '<div class="history-item"><span class="history-user">' + h[i].user + '</span><span class="history-status ' + (h[i].isNew ? 'history-new' : 'history-used') + '">' + (h[i].isNew ? 'NEW' : 'DM\'D') + '</span></div>';
+        html += '<div class="history-item"><span class="history-user">' + h[i].user + '</span><span class="history-badge ' + (h[i].safe ? 'badge-safe' : 'badge-used') + '">' + (h[i].safe ? 'Safe' : 'Contacted') + '</span></div>';
       }
+      html += '</div>';
       el.innerHTML = html;
     }
 
@@ -118,18 +415,17 @@
       var input = document.getElementById('dm-username');
       var errEl = document.getElementById('dm-error');
       var btn = document.getElementById('dm-btn');
-      var resultNew = document.getElementById('dm-result-new');
-      var resultUsed = document.getElementById('dm-result-used');
+      var resultSafe = document.getElementById('dm-result-safe');
+      var resultBlocked = document.getElementById('dm-result-blocked');
 
-      resultNew.style.display = 'none';
-      resultUsed.style.display = 'none';
+      resultSafe.style.display = 'none';
+      resultBlocked.style.display = 'none';
       errEl.textContent = '';
 
       var u = input.value.trim();
-      if (!u) { errEl.textContent = 'Enter a username.'; return; }
+      if (!u) { errEl.textContent = 'Please enter a username'; return; }
       if (!u.startsWith('@')) u = '@' + u;
-      u = u.trim();
-      if (u === '@') { errEl.textContent = 'Enter a valid username.'; return; }
+      if (u === '@') { errEl.textContent = 'Please enter a valid username'; return; }
 
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span> Checking...';
@@ -140,12 +436,12 @@
       btn.textContent = 'Check Username';
 
       if (exists) {
-        resultUsed.style.display = 'block';
+        resultBlocked.style.display = 'block';
         addHistory(u, false);
       } else {
         saveUsername(u);
         document.getElementById('dm-profile-link').href = 'https://x.com/' + u.replace('@', '');
-        resultNew.style.display = 'block';
+        resultSafe.style.display = 'block';
         addHistory(u, true);
       }
 
