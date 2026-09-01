@@ -129,8 +129,8 @@
         <!-- Result: New User -->
         <div class="result hidden" id="res-safe">
           <div class="result-icon">✅</div>
-          <div class="result-title">New User</div>
-          <div class="result-desc result-detail">This user hasn't been contacted yet.</div>
+          <div class="result-title">Not yet contacted</div>
+          <div class="result-desc result-detail">Safe to send a message.</div>
           <div class="result-actions">
             <button class="btn btn-success" id="res-confirm-btn" onclick="doConfirm()">Confirm & Save</button>
           </div>
@@ -139,9 +139,9 @@
         <!-- Result: Already Contacted -->
         <div class="result hidden" id="res-blocked">
           <div class="result-icon">⛔</div>
-          <div class="result-title">Already Contacted</div>
+          <div class="result-title">This person was already messaged</div>
           <div class="result-detail">
-            Contacted By: <strong id="res-by"></strong><br>
+            Contacted by: <strong id="res-by"></strong><br>
             <span id="res-time"></span>
           </div>
           <div class="result-actions">
@@ -152,11 +152,10 @@
         <!-- Result: Saved -->
         <div class="result hidden" id="res-saved">
           <div class="result-icon">✅</div>
-          <div class="result-title">Saved Successfully</div>
-          <div class="result-desc result-detail">User added to Dox.</div>
+          <div class="result-title">Marked as contacted</div>
           <div class="result-actions">
-            <a class="btn btn-primary" id="res-profile-btn" href="#" target="_blank" rel="noopener">View Profile →</a>
-            <button class="btn btn-primary" onclick="doReset()" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 4px 16px rgba(99,102,241,0.3)">Check Another</button>
+            <a class="btn btn-primary" id="res-profile-btn" href="#" target="_blank" rel="noopener">Open Profile →</a>
+            <button class="btn btn-primary" onclick="doReset()">Check Another</button>
           </div>
         </div>
       </div>
