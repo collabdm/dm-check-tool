@@ -52,7 +52,7 @@
     .s-sub{font-size:14px;color:var(--text2);margin-bottom:16px;line-height:1.5}
 
     .s-info{background:rgba(255,255,255,0.04);border-radius:10px;padding:12px 16px;margin-bottom:16px;text-align:left}
-    .s-info-row{font-size:14px;color:var(--text2);line-height:1.6}
+    .s-info-row{font-size:14px;color:var(--text2);line-height:1.6;text-align:left}
     .s-info-row strong{color:var(--text);font-weight:600}
 
     .btns{display:flex;gap:10px;justify-content:center}
@@ -225,8 +225,9 @@
     function doLogout(){localStorage.removeItem('dm_key');localStorage.removeItem('dm_name');localStorage.removeItem('dm_time');show('page-login');document.getElementById('login-key').value='';document.getElementById('login-error').textContent='';hideBoxes()}
 
     async function doCheck(){
-      var u=document.getElementById('dash-user').value.trim(),btn=document.getElementById('dash-btn');
-      if(!u)return;if(!u.startsWith('@'))u='@'+u;
+      var raw=document.getElementById('dash-user').value.trim(),btn=document.getElementById('dash-btn');
+      if(!raw)return;
+      var u=extractUsername(raw);
       hideBoxes();btn.disabled=true;btn.innerHTML='<span class="spin"></span>Checking...';
       try{
         var r=await asyncFetch(API+'?type=username&value='+encodeURIComponent(u),{mode:'cors',signal:AbortSignal.timeout(10000)});
@@ -234,6 +235,14 @@
         if(d.exists){document.getElementById('box-by').textContent=d.teamName||'Unknown';document.getElementById('box-time').textContent=d.timestamp||'';document.getElementById('box-no').classList.remove('hidden');addHist(u,false,d.teamName);}
         else{curUser=u;document.getElementById('box-safe').classList.remove('hidden');addHist(u,true,null);}
       }catch(e){btn.disabled=false;btn.textContent='Check';alert('Network error! Please try again.');}
+    }
+
+    function extractUsername(input){
+      input=input.trim();
+      var m=input.match(/(?:https?:\/\/)?(?:www\.)?x\.com\/([A-Za-z0-9_]+)(?:\?.*)?/);
+      if(m) return '@'+m[1];
+      if(input.startsWith('@')) return input;
+      return '@'+input;
     }
 
     async function doConfirm(){
