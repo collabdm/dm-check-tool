@@ -161,8 +161,7 @@
   </div>
 
   <script>
-    var API='https://script.google.com/macros/s/AKfycbwtT81I3aSqoEva5tPCzD1iqoga_3uy6inDpiAsgbk2ky9ichNthTqykUeiGU2VYJ5GQg/exec';
-    var KEYS={'q37es079akvlq4c':'Alamin','v4bl2kgtyb75ej8':'Pyro','1lsjtcm9285mb9o':'Maruf','s75xo9s9zvhbgem':'Alex','did3p2pje9p7nal':'Zing','o39dm32nszfurwl':'Shaied','qlxpv5ws9ixs990':'Era','xeg4ixi1tdlpavj':'Brokers'};
+    var API='https://script.google.com/macros/s/AKfycbxAYY1o3toTAD1uVCuQZg4_gajXBJbMM-itaHuRrGdRTMoiPwSlnMt8l5sz68sNWtcWqA/exec';
     var curUser='',fails=0,blockUntil=0;
 
     function fmtTime(){
@@ -178,19 +177,34 @@
     function hideBoxes(){['box-safe','box-no','box-saved'].forEach(function(id){document.getElementById(id).classList.add('hidden')})}
 
     // LOGIN
-    function doLogin(){
+    async function doLogin(){
       var k=document.getElementById('login-key').value.trim();
       var e=document.getElementById('login-error');
       e.textContent='';
       if(document.getElementById('login-block').classList.contains('hidden')===false)return;
       if(!k){e.textContent='Enter your key';return}
-      if(KEYS[k]){
-        localStorage.setItem('dm_key',k);localStorage.setItem('dm_name',KEYS[k]);localStorage.setItem('dm_time',Date.now().toString());
-        fails=0;localStorage.removeItem('dm_fails');localStorage.removeItem('dm_block');
-        goDash();
-      }else{
-        fails++;localStorage.setItem('dm_fails',fails.toString());
-        if(fails>=3){blockUntil=Date.now()+300000;localStorage.setItem('dm_block',blockUntil.toString());startBlock();}else{e.textContent='Wrong key. '+(3-fails)+' tries left.';}
+
+      document.getElementById('login-btn').disabled=true;
+      document.getElementById('login-btn').innerHTML='<span class="spin"></span>Logging in...';
+
+      try{
+        var r=await fetch(API+'?type=login&key='+encodeURIComponent(k),{mode:'cors',signal:AbortSignal.timeout(10000)});
+        var d=await r.json();
+        document.getElementById('login-btn').disabled=false;
+        document.getElementById('login-btn').textContent='Login';
+
+        if(d.valid){
+          localStorage.setItem('dm_key',k);localStorage.setItem('dm_name',d.name);localStorage.setItem('dm_time',Date.now().toString());
+          fails=0;localStorage.removeItem('dm_fails');localStorage.removeItem('dm_block');
+          goDash();
+        }else{
+          fails++;localStorage.setItem('dm_fails',fails.toString());
+          if(fails>=3){blockUntil=Date.now()+300000;localStorage.setItem('dm_block',blockUntil.toString());startBlock();}else{e.textContent='Wrong key. '+(3-fails)+' tries left.';}
+        }
+      }catch(ex){
+        document.getElementById('login-btn').disabled=false;
+        document.getElementById('login-btn').textContent='Login';
+        e.textContent='Network error!';
       }
     }
     function startBlock(){
