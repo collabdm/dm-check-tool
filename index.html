@@ -185,8 +185,15 @@
 
     function formatTime() {
       var d = new Date();
-      var opts = { timeZone:'Asia/Dhaka', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true, day:'2-digit', month:'short', year:'numeric' };
-      return d.toLocaleString('en-US', opts).replace(',','');
+      var s = d.toLocaleString('en-US', { timeZone:'Asia/Dhaka', hour12:false, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' }).split(', ');
+      var datePart = s[0].split('/');
+      var dd = datePart[1], mm = datePart[0], yy = datePart[2];
+      var t = s[1];
+      var th = parseInt(t.split(':')[0]);
+      var ampm = th >= 12 ? 'PM' : 'AM';
+      var h12 = th % 12 || 12;
+      var months = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
+      return h12 + ':' + t.split(':')[1] + ':' + t.split(':')[2] + ' ' + ampm + ', ' + dd + ' ' + months[parseInt(mm)] + ' ' + yy;
     }
 
     function showPage(id) {
