@@ -7,86 +7,84 @@
   <title>DM Check</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#0c0c10}
-    .wrap{width:100%;max-width:420px}
+    :root{--primary:#6C63FF;--primary-dark:#3F3D9E;--cyan:#00D4FF;--success:#00C853;--danger:#FF1744;--glass:rgba(255,255,255,0.05);--glass-border:rgba(255,255,255,0.08)}
+    body{font-family:'Inter',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0a0a0f 0%,#1a1a2e 50%,#0f0f1a 100%);background-attachment:fixed}
+    .wrap{width:100%;max-width:460px}
     .hidden{display:none!important}
 
-    .card{background:#16161e;border-radius:24px;padding:36px 28px;border:1px solid rgba(255,255,255,0.04)}
+    .card{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:20px;padding:32px 28px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
 
-    /* HEADER */
-    .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
-    .greet{font-size:18px;font-weight:700;color:#fff}
-    .greet span{color:#818cf8}
-    .logout{font-size:13px;font-weight:600;color:#555;background:none;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:7px 14px;cursor:pointer;font-family:'Inter',sans-serif;transition:0.2s}
-    .logout:hover{color:#f87171;border-color:rgba(248,113,113,0.2)}
+    .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .greet{font-size:17px;font-weight:600;color:rgba(255,255,255,0.9)}
+    .greet span{color:var(--primary);font-weight:700}
+    .logout{font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:6px 14px;cursor:pointer;font-family:'Inter',sans-serif;transition:0.2s}
+    .logout:hover{color:var(--danger);border-color:rgba(255,23,68,0.3);background:rgba(255,23,68,0.05)}
 
-    /* INPUT */
     .field{margin-bottom:16px}
-    .field label{display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
-    .field input{width:100%;padding:16px 18px;background:#1e1e28;border:1.5px solid rgba(255,255,255,0.06);border-radius:14px;color:#fff;font-family:'Inter',sans-serif;font-size:17px;font-weight:500;outline:none;transition:0.2s}
-    .field input:focus{border-color:#818cf8}
-    .field input::placeholder{color:#3a3a48}
+    .field label{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:8px;text-transform:uppercase;letter-spacing:1.5px}
+    .field input{width:100%;padding:15px 18px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);border-radius:12px;color:#fff;font-family:'Inter',sans-serif;font-size:16px;font-weight:500;outline:none;transition:all 0.3s}
+    .field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(108,99,255,0.12)}
+    .field input::placeholder{color:rgba(255,255,255,0.2)}
 
-    /* BUTTONS */
-    .btn{width:100%;padding:16px;border:none;border-radius:14px;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:0.2s}
-    .btn-purple{background:#7c3aed;color:#fff}
-    .btn-purple:hover{background:#6d28d9}
-    .btn-green{background:#059669;color:#fff}
-    .btn-green:hover{background:#047857}
-    .btn-dark{background:#1e1e28;color:#888;border:1px solid rgba(255,255,255,0.06)}
-    .btn-dark:hover{color:#ccc}
-    .btn:disabled{opacity:0.4;cursor:not-allowed}
+    .btn{width:100%;padding:15px;border:none;border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px}
+    .btn:active{transform:scale(0.97)}
+    .btn-p{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 4px 16px rgba(108,99,255,0.3)}
+    .btn-p:hover{box-shadow:0 6px 24px rgba(108,99,255,0.4);transform:translateY(-1px)}
+    .btn-g{background:linear-gradient(135deg,#00C853,#00E676);color:#fff;box-shadow:0 4px 16px rgba(0,200,83,0.25)}
+    .btn-g:hover{box-shadow:0 6px 24px rgba(0,200,83,0.35);transform:translateY(-1px)}
+    .btn-o{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.1)}
+    .btn-o:hover{color:#fff;background:rgba(255,255,255,0.1)}
+    .btn:disabled{opacity:0.35;cursor:not-allowed;transform:none!important}
 
-    .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:r 0.6s linear infinite;vertical-align:middle;margin-right:8px}
+    .spin{display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,0.2);border-top-color:var(--primary);border-radius:50%;animation:r 0.6s linear infinite;vertical-align:middle;margin-right:8px}
     @keyframes r{to{transform:rotate(360deg)}}
 
-    .err{font-size:14px;color:#f87171;text-align:center;min-height:20px;margin-top:-8px;margin-bottom:8px}
+    .err{font-size:13px;color:var(--danger);text-align:center;min-height:18px;margin-top:-6px;margin-bottom:6px}
 
-    /* RESULTS */
-    .box{margin-top:24px;padding:32px 24px;border-radius:18px;text-align:center;animation:up 0.3s ease}
-    @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .box{margin-top:24px;padding:32px 24px;border-radius:16px;text-align:center;animation:slide 0.35s ease}
+    @keyframes slide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-    .box-ok{background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.15)}
-    .box-no{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.12)}
-    .box-saved{background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.15)}
+    .box-ok{background:rgba(0,200,83,0.06);border:1px solid rgba(0,200,83,0.12)}
+    .box-no{background:rgba(255,23,68,0.05);border:1px solid rgba(255,23,68,0.1)}
+    .box-sv{background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.12)}
 
-    .box-icon{font-size:48px;margin-bottom:16px}
-    .box-title{font-size:24px;font-weight:800;margin-bottom:8px;line-height:1.3}
-    .box-ok .box-title{color:#34d399}
-    .box-no .box-title{color:#f87171}
-    .box-saved .box-title{color:#a78bfa}
+    .box-icon{font-size:48px;margin-bottom:14px}
+    .box-title{font-size:22px;font-weight:800;margin-bottom:6px;line-height:1.3;color:#fff}
+    .box-ok .box-title{color:#69F0AE}
+    .box-no .box-title{color:#FF5252}
+    .box-sv .box-title{color:#B388FF}
 
-    .box-sub{font-size:16px;color:#9ca3af;margin-bottom:20px;line-height:1.6}
+    .box-sub{font-size:15px;color:rgba(255,255,255,0.45);margin-bottom:18px;line-height:1.5}
 
-    .box-who{font-size:15px;color:#aaa;margin-top:10px;line-height:1.5}
-    .box-who span{color:#f87171;font-weight:700}
-    .box-time{font-size:14px;color:#777;margin-top:6px;line-height:1.5}
+    .box-who{font-size:14px;color:rgba(255,255,255,0.5);margin-top:8px;line-height:1.5}
+    .box-who span{color:var(--danger);font-weight:700}
+    .box-time{font-size:13px;color:rgba(255,255,255,0.3);margin-top:6px}
 
-    .box-btns{display:flex;gap:10px;justify-content:center;margin-top:16px}
-    .box-btns .btn{width:auto;padding:12px 24px;font-size:14px}
+    .box-btns{display:flex;gap:10px;justify-content:center;margin-top:8px}
+    .box-btns .btn{width:auto;padding:12px 28px;font-size:14px}
 
-    /* HISTORY */
-    .hist{margin-top:28px}
+    .hist{margin-top:24px}
     .hist-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .hist-label{font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:1px}
-    .hist-clear{font-size:12px;color:#555;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;padding:4px 8px;border-radius:6px}
-    .hist-clear:hover{color:#999;background:rgba(255,255,255,0.03)}
-    .hist-list{background:#16161e;border-radius:14px;border:1px solid rgba(255,255,255,0.03);overflow:hidden}
-    .hist-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.02)}
+    .hist-label{font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1.5px}
+    .hist-clear{font-size:11px;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;padding:4px 8px;border-radius:6px;transition:0.2s}
+    .hist-clear:hover{color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.04)}
+    .hist-list{background:rgba(255,255,255,0.02);border:1px solid var(--glass-border);border-radius:14px;overflow:hidden}
+    .hist-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.03)}
     .hist-row:last-child{border-bottom:none}
-    .hist-user{font-size:14px;font-weight:600;color:#ddd}
-    .hist-by{font-size:11px;color:#555;margin-left:6px}
-    .hist-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;text-transform:uppercase}
-    .b-ok{background:rgba(5,150,105,0.12);color:#34d399}
-    .b-no{background:rgba(239,68,68,0.1);color:#f87171}
+    .hist-user{font-size:14px;font-weight:600;color:rgba(255,255,255,0.8)}
+    .hist-by{font-size:11px;color:rgba(255,255,255,0.25);margin-left:6px}
+    .hist-badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:0.5px}
+    .b-ok{background:rgba(0,200,83,0.1);color:#69F0AE}
+    .b-no{background:rgba(255,23,68,0.08);color:#FF5252}
 
-    /* LOGIN */
     .logo-box{text-align:center;margin-bottom:28px}
-    .logo-circle{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#7c3aed,#ec4899);display:inline-flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 32px rgba(124,58,237,0.3)}
-    .logo-title{font-size:26px;font-weight:800;color:#fff;margin-top:16px;margin-bottom:6px}
-    .logo-sub{font-size:14px;color:#555}
+    .logo-circle{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--cyan));display:inline-flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 8px 32px rgba(108,99,255,0.3)}
+    .logo-title{font-size:24px;font-weight:800;color:#fff;margin-top:14px;margin-bottom:4px;letter-spacing:-0.5px}
+    .logo-sub{font-size:13px;color:rgba(255,255,255,0.35)}
+
+    .block-msg{font-size:12px;color:#FFD600;text-align:center;margin-top:10px;padding:10px;background:rgba(255,214,0,0.06);border:1px solid rgba(255,214,0,0.1);border-radius:10px}
   </style>
 </head>
 <body>
@@ -104,8 +102,8 @@
           <input type="password" id="login-key" placeholder="Paste your key" autocomplete="off">
         </div>
         <div class="err" id="login-error"></div>
-        <div class="err hidden" id="login-block" style="color:#f59e0b;background:rgba(245,158,11,0.08);padding:10px;border-radius:10px;margin-bottom:8px">Locked. Wait <span id="login-block-time">5:00</span></div>
-        <button class="btn btn-purple" id="login-btn" onclick="doLogin()">Login</button>
+        <div class="block-msg hidden" id="login-block">Locked. Wait <span id="login-block-time">5:00</span></div>
+        <button class="btn btn-p" id="login-btn" onclick="doLogin()">Login</button>
       </div>
     </div>
 
@@ -120,19 +118,17 @@
           <label>Check a username</label>
           <input type="text" id="dash-user" placeholder="@username" autocomplete="off">
         </div>
-        <button class="btn btn-purple" id="dash-btn" onclick="doCheck()">Check</button>
+        <button class="btn btn-p" id="dash-btn" onclick="doCheck()">Check</button>
 
-        <!-- SAFE -->
         <div class="box hidden" id="box-safe">
           <div class="box-icon">✅</div>
           <div class="box-title">Not yet contacted</div>
           <div class="box-sub">Safe to send a message</div>
           <div class="box-btns">
-            <button class="btn btn-green" id="box-confirm" onclick="doConfirm()">Confirm</button>
+            <button class="btn btn-g" id="box-confirm" onclick="doConfirm()">Confirm</button>
           </div>
         </div>
 
-        <!-- BLOCKED -->
         <div class="box hidden" id="box-no">
           <div class="box-icon">⛔</div>
           <div class="box-title">Already messaged</div>
@@ -140,18 +136,17 @@
           <div class="box-who">Sent by: <span id="box-by"></span></div>
           <div class="box-time" id="box-time"></div>
           <div class="box-btns">
-            <button class="btn btn-dark" onclick="doReset()">Check Another</button>
+            <button class="btn btn-o" onclick="doReset()">Check Another</button>
           </div>
         </div>
 
-        <!-- SAVED -->
         <div class="box hidden" id="box-saved">
           <div class="box-icon">✅</div>
           <div class="box-title">Marked as contacted</div>
           <div class="box-sub">You can now message this person</div>
           <div class="box-btns">
-            <a class="btn btn-purple" id="box-profile" href="#" target="_blank" rel="noopener">Open Profile</a>
-            <button class="btn btn-dark" onclick="doReset()">Check Another</button>
+            <a class="btn btn-p" id="box-profile" href="#" target="_blank" rel="noopener">Open Profile</a>
+            <button class="btn btn-o" onclick="doReset()">Check Another</button>
           </div>
         </div>
       </div>
@@ -176,23 +171,19 @@
     function show(id){document.getElementById('page-login').classList.add('hidden');document.getElementById('page-dash').classList.add('hidden');document.getElementById(id).classList.remove('hidden')}
     function hideBoxes(){['box-safe','box-no','box-saved'].forEach(function(id){document.getElementById(id).classList.add('hidden')})}
 
-    // LOGIN
     async function doLogin(){
       var k=document.getElementById('login-key').value.trim();
       var e=document.getElementById('login-error');
       e.textContent='';
       if(document.getElementById('login-block').classList.contains('hidden')===false)return;
       if(!k){e.textContent='Enter your key';return}
-
       document.getElementById('login-btn').disabled=true;
       document.getElementById('login-btn').innerHTML='<span class="spin"></span>Logging in...';
-
       try{
         var r=await fetch(API+'?type=login&key='+encodeURIComponent(k),{mode:'cors',signal:AbortSignal.timeout(10000)});
         var d=await r.json();
         document.getElementById('login-btn').disabled=false;
         document.getElementById('login-btn').textContent='Login';
-
         if(d.valid){
           localStorage.setItem('dm_key',k);localStorage.setItem('dm_name',d.name);localStorage.setItem('dm_time',Date.now().toString());
           fails=0;localStorage.removeItem('dm_fails');localStorage.removeItem('dm_block');
@@ -201,11 +192,7 @@
           fails++;localStorage.setItem('dm_fails',fails.toString());
           if(fails>=3){blockUntil=Date.now()+300000;localStorage.setItem('dm_block',blockUntil.toString());startBlock();}else{e.textContent='Wrong key. '+(3-fails)+' tries left.';}
         }
-      }catch(ex){
-        document.getElementById('login-btn').disabled=false;
-        document.getElementById('login-btn').textContent='Login';
-        e.textContent='Network error!';
-      }
+      }catch(ex){document.getElementById('login-btn').disabled=false;document.getElementById('login-btn').textContent='Login';e.textContent='Network error!';}
     }
     function startBlock(){
       var b=document.getElementById('login-block'),t=document.getElementById('login-block-time');
@@ -219,7 +206,6 @@
     function goDash(){document.getElementById('dash-name').textContent=localStorage.getItem('dm_name');show('page-dash');renderHist()}
     function doLogout(){localStorage.removeItem('dm_key');localStorage.removeItem('dm_name');localStorage.removeItem('dm_time');show('page-login');document.getElementById('login-key').value='';document.getElementById('login-error').textContent='';hideBoxes()}
 
-    // CHECK
     async function doCheck(){
       var u=document.getElementById('dash-user').value.trim(),btn=document.getElementById('dash-btn');
       if(!u)return;if(!u.startsWith('@'))u='@'+u;
@@ -236,10 +222,9 @@
           curUser=u;document.getElementById('box-safe').classList.remove('hidden');
           addHist(u,true,null);
         }
-      }catch(e){btn.disabled=false;btn.textContent='Check';alert('Network error!')}
+      }catch(e){btn.disabled=false;btn.textContent='Check';alert('Network error!');}
     }
 
-    // CONFIRM
     async function doConfirm(){
       var b=document.getElementById('box-confirm');b.disabled=true;b.innerHTML='<span class="spin"></span>Saving...';
       var nm=localStorage.getItem('dm_name'),ts=fmtTime();
@@ -253,7 +238,6 @@
 
     function doReset(){hideBoxes();document.getElementById('dash-user').value='';document.getElementById('dash-user').focus()}
 
-    // HISTORY
     function getH(){try{return JSON.parse(localStorage.getItem('dm_h')||'[]')}catch(e){return[]}}
     function addHist(u,safe,by){
       var h=getH();h.unshift({u:u,s:safe,b:by||localStorage.getItem('dm_name'),t:fmtTime()});
@@ -274,7 +258,6 @@
       el.innerHTML=s+'</div>';
     }
 
-    // INIT
     (function(){
       var k=localStorage.getItem('dm_key'),n=localStorage.getItem('dm_name'),t=localStorage.getItem('dm_time');
       var sf=localStorage.getItem('dm_fails'),sb=localStorage.getItem('dm_block');
@@ -282,7 +265,6 @@
       if(sb&&Date.now()<parseInt(sb)){blockUntil=parseInt(sb);startBlock()}
       if(k&&n&&t){if(Date.now()-parseInt(t)>3600000)doLogout();else goDash()}
     })();
-
     document.getElementById('login-key').addEventListener('keypress',function(e){if(e.key==='Enter')doLogin()});
     document.getElementById('dash-user').addEventListener('keypress',function(e){if(e.key==='Enter')doCheck()});
   </script>
