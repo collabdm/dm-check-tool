@@ -177,8 +177,9 @@
       var s=d.toLocaleString('en-US',{timeZone:'Asia/Dhaka',hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'}).split(', ');
       var p=s[0].split('/'),dd=p[1],mm=p[0],yy=p[2];
       var t=s[1],th=parseInt(t.split(':')[0]),ap=th>=12?'PM':'AM',h=th%12||12;
+      var mi=t.split(':')[1],se=t.split(':')[2];
       var mths=['','January','February','March','April','May','June','July','August','September','October','November','December'];
-      return h+':'+t.split(':')[1]+':'+t.split(':')[2]+' '+ap+', '+dd+' '+mths[parseInt(mm)]+' '+yy;
+      return String(h).padStart(2,'0')+':'+mi+':'+se+' '+ap+', '+dd+' '+mths[parseInt(mm)]+' '+yy;
     }
 
     function show(id){document.getElementById('page-login').classList.add('hidden');document.getElementById('page-dash').classList.add('hidden');document.getElementById(id).classList.remove('hidden')}
