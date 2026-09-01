@@ -169,7 +169,7 @@
   </div>
 
   <script>
-    var API='https://script.google.com/macros/s/AKfycbxAYY1o3toTAD1uVCuQZg4_gajXBJbMM-itaHuRrGdRTMoiPwSlnMt8l5sz68sNWtcWqA/exec';
+    var API='https://script.google.com/macros/s/AKfycbxg7eRuMcRchSCzzdpRcN5hBaGj6z-P-LrG7A_JeoHA4fJ7SDXW6IkGhBny3UsLsqV6cA/exec';
     var curUser='',fails=0,blockUntil=0;
 
     function fmtTime(){
@@ -211,7 +211,7 @@
       if(!u)return;if(!u.startsWith('@'))u='@'+u;
       hideBoxes();btn.disabled=true;btn.innerHTML='<span class="spin"></span>Checking...';
       try{var r=await fetch(API+'?type=username&value='+encodeURIComponent(u),{mode:'cors',signal:AbortSignal.timeout(10000)});var d=await r.json();btn.disabled=false;btn.textContent='Check';
-        if(d.exists){document.getElementById('box-by').textContent=d.contactedBy||'Unknown';document.getElementById('box-time').textContent=d.timestamp||'';document.getElementById('box-no').classList.remove('hidden');addHist(u,false,d.contactedBy);}
+        if(d.exists){document.getElementById('box-by').textContent=d.teamName||'Unknown';document.getElementById('box-time').textContent=d.timestamp||'';document.getElementById('box-no').classList.remove('hidden');addHist(u,false,d.teamName);}
         else{curUser=u;document.getElementById('box-safe').classList.remove('hidden');addHist(u,true,null);}
       }catch(e){btn.disabled=false;btn.textContent='Check';alert('Network error!');}
     }
@@ -219,7 +219,7 @@
     async function doConfirm(){
       var b=document.getElementById('box-confirm');b.disabled=true;b.innerHTML='<span class="spin"></span>Saving...';
       var nm=localStorage.getItem('dm_name'),ts=fmtTime();
-      try{await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:curUser,timestamp:ts,contactedBy:nm})})}catch(e){}
+      try{await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:curUser,profileLink:'https://x.com/'+curUser.replace('@',''),timestamp:ts,teamName:nm})})}catch(e){}
       document.getElementById('box-safe').classList.add('hidden');document.getElementById('box-profile').href='https://x.com/'+curUser.replace('@','');document.getElementById('box-saved').classList.remove('hidden');updateHist(curUser,nm);b.disabled=false;b.textContent='Confirm';
     }
 
